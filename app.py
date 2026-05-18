@@ -45,7 +45,10 @@ if uploaded_file is not None:
     st.image(image, caption="Uploaded Image", use_container_width=True)
 
     img = image.resize((224, 224))
-    img_array = np.array(img, dtype=np.float32) / 255.0
+    img_array = np.array(img, dtype=np.float32)
+
+    # MobileNetV2 preprocess_input: scale from [0,255] to [-1, 1]
+    img_array = (img_array / 127.5) - 1.0
     img_array = np.expand_dims(img_array, axis=0)
 
     model = load_model()
