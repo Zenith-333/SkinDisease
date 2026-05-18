@@ -1,13 +1,13 @@
 import os
-os.environ["KERAS_BACKEND"] = "jax"   # use JAX instead of TensorFlow
+os.environ["KERAS_BACKEND"] = "jax"
 
 import streamlit as st
-import keras
 import numpy as np
 from PIL import Image
 
 @st.cache_resource
 def load_model():
+    import keras
     return keras.models.load_model("mobile_net_skin_model.keras")
 
 class_names = [
@@ -46,12 +46,12 @@ if uploaded_file is not None:
 
     img = image.resize((224, 224))
     img_array = np.array(img, dtype=np.float32) / 255.0
-    img_array = np.expand_dims(img_array, axis=0)   # shape: (1, 224, 224, 3)
+    img_array = np.expand_dims(img_array, axis=0)
 
     model = load_model()
     predictions = model.predict(img_array)
     predicted_class = class_names[np.argmax(predictions)]
-    confidence = np.max(predictions)
+    confidence = float(np.max(predictions))
 
     st.write(f"### Predicted Class: {predicted_class}")
     st.write(f"Confidence: {confidence:.2%}")
