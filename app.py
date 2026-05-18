@@ -10,27 +10,28 @@ def load_model():
     import keras
     return keras.models.load_model("mobile_net_skin_model.keras")
 
+# Must match EXACTLY the folder names in your dataset (alphabetical order)
 class_names = [
     "Acne",
-    "Actinic Keratosis",
-    "Atopic Dermatitis",
-    "Basal Cell Carcinoma",
-    "Benign Keratosis",
-    "Dermatofibroma",
+    "Actinic_Keratosis",
+    "Benign_tumors",
+    "Bullous",
+    "Candidiasis",
+    "DrugEruption",
     "Eczema",
-    "Impetigo",
-    "Lichen Planus",
-    "Melanoma",
-    "Molluscum Contagiosum",
+    "Infestations_Bites",
+    "Lichen",
+    "Lupus",
+    "Moles",
     "Psoriasis",
-    "Ringworm",
     "Rosacea",
-    "Scabies",
-    "Seborrheic Keratosis",
-    "Skin Cancer",
-    "Squamous Cell Carcinoma",
-    "Tinea Versicolor",
-    "Urticaria (Hives)",
+    "Seborrh_Keratoses",
+    "SkinCancer",
+    "Sun_Sunlight_Damage",
+    "Tinea",
+    "Unknown_Normal",
+    "Vascular_Tumors",
+    "Vasculitis",
     "Vitiligo",
     "Warts"
 ]
@@ -46,8 +47,6 @@ if uploaded_file is not None:
 
     img = image.resize((224, 224))
     img_array = np.array(img, dtype=np.float32)
-
-    # MobileNetV2 preprocess_input: scale from [0,255] to [-1, 1]
     img_array = (img_array / 127.5) - 1.0
     img_array = np.expand_dims(img_array, axis=0)
 
