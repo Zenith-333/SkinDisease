@@ -10,7 +10,7 @@ def load_model():
     import keras
     return keras.models.load_model("mobile_net_skin_model.keras")
 
-# Must match EXACTLY the folder names in your dataset (alphabetical order)
+# Exact alphabetical order of your training folders
 class_names = [
     "Acne",
     "Actinic_Keratosis",
@@ -46,9 +46,10 @@ if uploaded_file is not None:
     st.image(image, caption="Uploaded Image", use_container_width=True)
 
     img = image.resize((224, 224))
-    img_array = np.array(img, dtype=np.float32)
-    img_array = (img_array / 127.5) - 1.0
-    img_array = np.expand_dims(img_array, axis=0)
+
+    # NO manual preprocessing — model has Rescaling(1./255) built in
+    img_array = np.array(img, dtype=np.float32)   # keep raw 0-255
+    img_array = np.expand_dims(img_array, axis=0)  # shape: (1, 224, 224, 3)
 
     model = load_model()
     predictions = model.predict(img_array)
